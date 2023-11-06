@@ -1,0 +1,26 @@
+Title: LCGA on probability of presence of any symptom at 5 timepoints
+Data: file is AnySymptomsProb.csv;
+LISTWISE=ON; 
+Variable: names are id P1-P5;
+usevar = P1-P5 ;
+idvariable = id;
+missing = all (-9999);
+classes = c(2);
+Analysis: estimator = MLR;
+type = mixture;
+processors = 4;
+starts = 500 50;
+LRTSTARTS= 20 20 100 20
+Model: %overall%
+i s  | P1@0 P2@90 P3@180 P4@270 P5@360 ;
+ %c#1%
+ i@0 s@0 ; 
+%c#2%
+ i@0 s@0 ;
+ 
+Plot: series = P1(0) P2(90) P3(180) P4(270) P5(360) ;
+type = plot3;
+
+OUTPUT: TECH1 TECH8 TECH11 TECH14
+CINTERVAL!
+savedata: file is ClassficationOutput.dat;
